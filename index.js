@@ -33,11 +33,11 @@ module.exports = {
 //     accessTokenPayload: req.body?.accessTokenPayload,
 //     accessTokenAuth: req.body?.accessTokenAuth,
 //     decryptedDataUrl: req.body?.decryptedDataUrl,
-  };
-  let resp = await Detokenize.detokenize(dataa);
-  return res.json(resp);
-});
+//   };
+//   let resp = await Detokenize.detokenize(dataa);
+//   return res.json(resp);
+// });
 
-app.listen("4000", () => {
-  console.log("server listening on 4000 port");
-});
+// app.listen("4000", () => {
+//   console.log("server listening on 4000 port");
+// });
