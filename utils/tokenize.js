@@ -65,7 +65,7 @@ class Tokenize {
 
       // let encryptionData = TokenEncryption.encryption(pan, serverPublicKey);
       
-      let tokenizeData=await BatchProcessForTokenizing.runAllQueries(encryptionData,concurrentLimit,batchSize)
+      let tokenizeData=await BatchProcessForTokenizing.runAllQueries(encryptionData,concurrentLimit,batchSize,"TOKENIZE")
       // console.log("tokenizeData------------",tokenizeData)
       // let tokenizeData = await  getEncryptedTokenData(
         // encryptedDataUrl,

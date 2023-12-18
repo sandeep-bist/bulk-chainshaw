@@ -15,12 +15,12 @@ const chunk = (arr, chunkSize = 1, cache = []) => {
     return cache
   }
 
-class BatchProcessForTokenizing{
+class BatchProcessForDeTokenizing{
     async runAllQueries(pan_data,concurrentLimit,batchSize,action) {
 
         
         const batches = chunk(pan_data, batchSize);
-        console.log("total batch size: ",batches.length);
+        console.log(concurrentLimit,"total batch sizeii: ",batches.length,action);
         let results = [];
         let final_result=[];
         results= await  this.callTasks(batches,concurrentLimit,action);
@@ -64,7 +64,7 @@ class BatchProcessForTokenizing{
       tasks.push(createTaskInstance());
     }
     let result=await Promise.all(tasks);
-    console.log("internal result****",result)
+    // console.log("****internal result****",result)
 
     final_results.push(result);
 
@@ -78,4 +78,4 @@ class BatchProcessForTokenizing{
 
 }
 
-module.exports = new BatchProcessForTokenizing();
+module.exports = new BatchProcessForDeTokenizing();

@@ -1,10 +1,15 @@
 const axios = require("axios");
 const TokenEncryption = require("../encr");
 const TokenDecryption = require("../dcr");
-const getAccessToken = require("./accessToken");
+// const getAccessToken = require("./accessToken");
+const BatchProcessForDeTokenizing=require("../utils/batchDetokenProcess");
+const TokenizeConfigs=require("../utils/config");
+
 
 class Detokenize {
-  async detokenize(data) {
+  async detokenize(data,concurrentLimit,batchSize) {
+    TokenizeConfigs.initializeVariable(data);
+
     // console.log("data---------------", data);
     try {
 
@@ -18,12 +23,12 @@ class Detokenize {
 
       }
       let tokenizePan = data?.tokenizePan;
-      let serverPublicKey = data?.serverPublicKey;
-      let internalPrivateKey = data?.internalPrivateKey;
-      let accessTokenUrl = data?.accessTokenUrl;
-      let accessTokenPayload = data?.accessTokenPayload;
-      let accessTokenAuth = data?.accessTokenAuth;
-      let decryptedDataUrl = data?.decryptedDataUrl;
+      let serverPublicKey = TokenizeConfigs?.serverPublicKey;
+      let internalPrivateKey = TokenizeConfigs?.internalPrivateKey;
+      let accessTokenUrl = TokenizeConfigs?.accessTokenUrl;
+      let accessTokenPayload = TokenizeConfigs?.accessTokenPayload;
+      let accessTokenAuth = TokenizeConfigs?.accessTokenAuth;
+      let decryptedDataUrl = TokenizeConfigs?.decryptedDataUrl;
 
       if (
         !tokenizePan ||
@@ -59,21 +64,23 @@ class Detokenize {
       //   tokenizePan,
       //   serverPublicKey
       // );
-        // console.log(encryptionData, "--------encryptionData");
-      let tokenizeData = await this.getEncryptedTokenData(
-        decryptedDataUrl,
-        encryptionData,
-        accessTokenUrl,
-        accessTokenPayload,
-        accessTokenAuth
-      );
+        console.log(concurrentLimit, "--------concurrentLimit");
+      // let tokenizeData = await this.getEncryptedTokenData(
+      //   decryptedDataUrl,
+      //   encryptionData,
+      //   accessTokenUrl,
+      //   accessTokenPayload,
+      //   accessTokenAuth
+      // );
+      let tokenizeData=await BatchProcessForDeTokenizing.runAllQueries(encryptionData,concurrentLimit,batchSize,"DETOKENIZE")
+
         // console.log(tokenizeData, "--------tokenizeData");
       // let tok
       // let decryptionToken = TokenDecryption.decryption(
       //   tokenizeData.results.data,
       //   internalPrivateKey
       // );
-      let encrpypted_token=tokenizeData.results.data;
+      let encrpypted_token=tokenizeData;//.results.data;
       // console.log(tokenizePanObj, "--------decryptionFunction");
       let decryptionFunction = TokenDecryption.decryption(internalPrivateKey,flippedObject);
 
@@ -86,32 +93,32 @@ class Detokenize {
     }
   }
 
-  async getEncryptedTokenData(
-    decryptedDataUrl,
-    encryptionData,
-    accessTokenUrl,
-    accessTokenPayload,
-    accessTokenAuth
-  ) {
-    let accessToken = await getAccessToken(
-      accessTokenUrl,
-      accessTokenPayload,
-      accessTokenAuth
-    );
+//   async getEncryptedTokenData(
+//     decryptedDataUrl,
+//     encryptionData,
+//     accessTokenUrl,
+//     accessTokenPayload,
+//     accessTokenAuth
+//   ) {
+//     let accessToken = await getAccessToken(
+//       accessTokenUrl,
+//       accessTokenPayload,
+//       accessTokenAuth
+//     );
 
-    let data = {
-      encryptedTokens: encryptionData,
-    };
-    let headers = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken.access_token}`,
-    };
-console.log("here--------dsd----")
-    let res = await axios.post(decryptedDataUrl, data, { headers: headers });
-    console.log("--------response-")
+//     let data = {
+//       encryptedTokens: encryptionData,
+//     };
+//     let headers = {
+//       "Content-Type": "application/json",
+//       Authorization: `Bearer ${accessToken.access_token}`,
+//     };
+// console.log("here--------dsd----")
+//     let res = await axios.post(decryptedDataUrl, data, { headers: headers });
+//     console.log("--------response-")
 
-    return res.data;
-  }
+//     return res.data;
+//   }
 }
 
 module.exports = new Detokenize();

@@ -11,7 +11,8 @@ class TokenizeConfigs{
         this.accessTokenAuth =null;
         this.serverPublicKey =null;
         this.internalPrivateKey =null;
-
+        this.decryptedDataUrl =null;
+        
         TokenizeConfigs.instance=this;
     }
 
@@ -23,7 +24,8 @@ class TokenizeConfigs{
         this.accessTokenPayload = data?.accessTokenPayload;
         this.accessTokenAuth = data?.accessTokenAuth;
         this.encryptedDataUrl = data?.encryptedDataUrl;
-
+        this.decryptedDataUrl = data?.decryptedDataUrl;
+        
     }
 }
 

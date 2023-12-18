@@ -27,6 +27,8 @@ app.post("/api/bulk-tokenize", async (req, res) => {
   return res.json(resp);
 });
 app.post("/api/bulk-detokenize", async (req, res) => {
+  let concurrentLimit=req.body.concurrentLimit;
+  let batchSize=req.body.batchSize;
   let dataa = {
     tokenizePan: req.body?.tokenizePan,
     serverPublicKey: req.body?.serverPublicKey,
@@ -36,7 +38,7 @@ app.post("/api/bulk-detokenize", async (req, res) => {
     accessTokenAuth: req.body?.accessTokenAuth,
     decryptedDataUrl: req.body?.decryptedDataUrl,
   };
-  let resp = await Detokenize.detokenize(dataa);
+  let resp = await Detokenize.detokenize(dataa,concurrentLimit,batchSize);
   return res.json(resp);
 });
 
