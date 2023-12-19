@@ -55,11 +55,6 @@ class Detokenize {
       let encryptionData = tokenizePan.map(encryptionFunction);
       // console.log("tokenizePanObj---encryptionData----------",encryptionData)
       
-      let tokenizePanObj= Object.assign(...tokenizePan.map((k, i) =>({ [k]: encryptionData[i] })))
-      // console.log("tokenizePanObj-------------",tokenizePanObj)
-      let flippedObject = Object.fromEntries(
-        Object.entries(tokenizePanObj).map(([pan, token]) => [token, pan])
-      );
       // let encryptionData = TokenEncryption.encryption(
       //   tokenizePan,
       //   serverPublicKey
@@ -74,6 +69,11 @@ class Detokenize {
       // );
       let tokenizeData=await BatchProcessForDeTokenizing.runAllQueries(encryptionData,concurrentLimit,batchSize,"DETOKENIZE")
 
+      let flippedObject= Object.assign(...tokenizePan.map((k, i) =>({  [encryptionData[i]] :k})))
+      // console.log("tokenizePanObj-------------",tokenizePanObj)
+      // let flippedObject = Object.fromEntries(
+      //   Object.entries(tokenizePanObj).map(([pan, token]) => [token, pan])
+      // );
         // console.log(tokenizeData, "--------tokenizeData");
       // let tok
       // let decryptionToken = TokenDecryption.decryption(

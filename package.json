@@ -1,6 +1,6 @@
 {
   "name": "bulktokenizeordetokenize",
-  "version": "1.0.5",
+  "version": "1.0.10",
   "description": "This package is used to tokenize and detokenize a string ",
   "main": "index.js",
   "scripts": {

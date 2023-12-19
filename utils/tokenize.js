@@ -57,10 +57,10 @@ class Tokenize {
         let encryptionData = pan.map(encryptionFunction);
 
 
-        let panTokenizeObj= Object.assign(...pan.map((k, i) =>({ [k]: encryptionData[i] })))
-          let flippedObject = Object.fromEntries(
-            Object.entries(panTokenizeObj).map(([pan, token]) => [token, pan])
-          );
+        let flippedObject= Object.assign(...pan.map((k, i) =>({ [encryptionData[i]]:[k]})))
+          // let flippedObject = Object.fromEntries(
+          //   Object.entries(panTokenizeObj).map(([pan, token]) => [token, pan])
+          // );
           // console.log("encryptionDatflippedObjecta---------------",flippedObject);
 
       // let encryptionData = TokenEncryption.encryption(pan, serverPublicKey);
