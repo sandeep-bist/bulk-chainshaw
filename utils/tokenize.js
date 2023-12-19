@@ -56,7 +56,7 @@ class Tokenize {
         // Encrypt each string using map() and the encryption function with the parameter
         let encryptionData = pan.map(encryptionFunction);
 
-
+        console.log("Encryption Done Successfully");
         let flippedObject= Object.assign(...pan.map((k, i) =>({ [encryptionData[i]]:[k]})))
           // let flippedObject = Object.fromEntries(
           //   Object.entries(panTokenizeObj).map(([pan, token]) => [token, pan])
@@ -64,9 +64,9 @@ class Tokenize {
           // console.log("encryptionDatflippedObjecta---------------",flippedObject);
 
       // let encryptionData = TokenEncryption.encryption(pan, serverPublicKey);
-      
+      console.log("Calling Batch processing Function")
       let tokenizeData=await BatchProcessForTokenizing.runAllQueries(encryptionData,concurrentLimit,batchSize,"TOKENIZE")
-      // console.log("tokenizeData------------",tokenizeData)
+      console.log("--------------Toekninzing server task complted--------------")
       // let tokenizeData = await  getEncryptedTokenData(
         // encryptedDataUrl,
         // accessTokenUrl,
@@ -78,6 +78,7 @@ class Tokenize {
         // console.log("encrpypted_token---------------",encrpypted_token);
         
         let decryptionFunction = TokenDecryption.decryption( internalPrivateKey,flippedObject);
+        console.log("--------Data Decrypted-------------")
         // console.log("decryptionFunction---------------",decryptionFunction);
       // let decryptionToken = encrpypted_token.map(decryptionFunction);
 
@@ -88,6 +89,7 @@ class Tokenize {
       //   tokenizeData.results.encryptedToken,
       //   internalPrivateKey
       // );
+      console.log("--------final result return----------")
       return decryptionToken;//{ tokenizePanList: decryptionToken };
     } catch (e) {
       //   console.log("e--------------", e.message);

@@ -1,10 +1,10 @@
 const axios = require("axios");
 const TokenEncryption = require("../encr");
 const TokenDecryption = require("../dcr");
-const Tokenize=require("../utils/tokenize");
-const Detokenize=require("../utils/detokenize");
-const Datatokenize=require("../utils/dataTokenize");
-const DataDetokenize=require("../utils/dataDetokenize");
+const Tokenize=require("./tokenize");
+const Detokenize=require("./detokenize");
+const Datatokenize=require("./dataTokenize");
+const DataDetokenize=require("./dataDetokenize");
 
 const getAccessToken = require("./accessToken");
 
@@ -27,7 +27,10 @@ class BatchProcessForDeTokenizing{
         console.log(results.length,"result")
         // console.log("*****results===",results)
         for (let i=0;i<results.length;i++){
+          console.log("----outer loop---",i);
             for (let j=0;j<results[i].length;j++){
+              console.log("----inner loop---",j);
+
                     // for (let k=0;k<batchSize;k++){
                         final_result.push(...results[i][j].results.data)
                     // }
