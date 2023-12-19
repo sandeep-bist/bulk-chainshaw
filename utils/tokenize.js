@@ -77,20 +77,22 @@ class Tokenize {
         let encrpypted_token=tokenizeData;//.results.data
         // console.log("encrpypted_token---------------",encrpypted_token);
         
-        let decryptionFunction = TokenDecryption.decryption( internalPrivateKey,flippedObject);
+        let decryptionFunction = TokenDecryption.loopDecryption( internalPrivateKey,flippedObject);
         console.log("--------Data Decrypted-------------")
         // console.log("decryptionFunction---------------",decryptionFunction);
       // let decryptionToken = encrpypted_token.map(decryptionFunction);
 
-      var decryptionToken = encrpypted_token.reduce(decryptionFunction, {});
-        // console.log("decryptionToken---------------",panTokenizeObj);
+      // var decryptionToken = encrpypted_token.reduce(decryptionFunction, {});
+      var decryptionToken = encrpypted_token.forEach(decryptionFunction);
+      // var decryptionToken = encrpypted_token.map(decryptionFunction);
+        console.log("decryptionToken---------------");
 
       // let decryptionToken = TokenDecryption.decryption(
       //   tokenizeData.results.encryptedToken,
       //   internalPrivateKey
       // );
       console.log("--------final result return----------")
-      return decryptionToken;//{ tokenizePanList: decryptionToken };
+      return flippedObject;//{ tokenizePanList: decryptionToken };
     } catch (e) {
       //   console.log("e--------------", e.message);
       return { error: e.message };

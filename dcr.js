@@ -60,6 +60,65 @@ class TokenDecry {
    
   }
 
+  loopDecryption(privateKey,stringTokenObj=null) {
+
+    // return(emptyObj,encryptedData,)=>{
+      return(encryptedData)=>{
+      let decodedToken;
+      console.log("---------------dcr----")
+      if (encryptedData.hasOwnProperty("data")){
+       decodedToken = Buffer.from(encryptedData.data, "base64");
+      }
+      else{
+        decodedToken = Buffer.from(encryptedData.token, "base64");
+        // delete stringTokenObj[encryptedData.value];
+      }
+      // console.log(`Encrypted Text: ${privateKey}`);
+      
+      const privateKeyOriginal = this.loadPrivateKey(privateKey);
+  
+      // console.log(`privateKeyOriginal : ${privateKeyOriginal}`);
+      // const decryptCipher = crypto.createDecipheriv(
+        //   "RSA-OAEP",
+      //   privateKeyOriginal,
+      //   Buffer.alloc(0)
+      // );
+  
+      // const ciphertextByte = Buffer.concat([
+        //   decryptCipher.update(decodedToken),
+        //   decryptCipher.final(),
+        // ]);
+        // return ciphertextByte.toString("utf-8");
+        const decryptedData = crypto.privateDecrypt(
+          {
+            key: privateKeyOriginal,
+            padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+            oaepHash: MDNAME,
+          },
+          decodedToken
+      );
+      // console.log("----------------valueeee",stringTokenObj);
+  
+      // stringTokenObj[]= decryptedData.toString("utf-8");
+      // return stringTokenObj;
+      // stringTokenObj["AACPG8957E"]="dfewf"
+      if  (encryptedData.hasOwnProperty("data")){
+        // console.log("encryptedData--------")
+        stringTokenObj[stringTokenObj[encryptedData.value]]=decryptedData.toString("utf-8");
+        delete stringTokenObj[encryptedData.value]; 
+      }
+      else{
+        stringTokenObj[stringTokenObj[encryptedData.value]]=decryptedData.toString("utf-8");
+        delete stringTokenObj[encryptedData.value]; 
+      }
+      console.log("----------------valueeee");
+      
+      return stringTokenObj; //decryptedData.toString("utf-8");
+    }
+   
+  }
+
+
   loadPrivateKey(privateKey) {
     // const privateKeyBytes = Buffer.from(privateKey, "base64");
 
