@@ -5,7 +5,8 @@ const axios = require("axios");
  exports.getEncryptedTokenData=async(
     encryptionData
   )=> {
-    let accessToken = await getAccessToken(
+    try{
+      let accessToken = await getAccessToken(
         TokenizeConfigs.accessTokenUrl,
         TokenizeConfigs.accessTokenPayload,
         TokenizeConfigs.accessTokenAuth
@@ -20,4 +21,10 @@ const axios = require("axios");
     };
     let res = await axios.post(TokenizeConfigs.encryptedDataUrl, data, { headers });
     return res.data;
+    }
+    catch(err){
+      console.log(err,"errrrrrr")
+      // return err
+    }
+    
   }

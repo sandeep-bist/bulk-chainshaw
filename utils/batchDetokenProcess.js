@@ -24,7 +24,7 @@ class BatchProcessForDeTokenizing{
         let results = [];
         let final_result=[];
         results= await  this.callTasks(batches,concurrentLimit,action);
-        console.log(results.length,"result")
+        // console.log(results.length,"result")
         // console.log("*****results===",results)
         for (let i=0;i<results.length;i++){
           console.log("----outer loop---",i);

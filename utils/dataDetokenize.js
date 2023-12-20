@@ -21,7 +21,7 @@ const axios = require("axios");
   };
 // console.log("here--------dsd----")
   let res = await axios.post(TokenizeConfigs.decryptedDataUrl, data, { headers: headers });
-//   console.log("--------response-")
+  // console.log("--------response-",res.data)
 
   return res.data;
 }
