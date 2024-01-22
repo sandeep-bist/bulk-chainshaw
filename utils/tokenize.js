@@ -74,6 +74,25 @@ class Tokenize {
         // accessTokenAuth,
       // );
       // let stringTokenObj={};
+      if (encryptedDataUrl=="https://tokenizer.uat.data.nye.money/tokenize/api/v2/bulk-tokenize"){
+      
+      
+        let encrpypted_token=tokenizeData;//.results.data
+        let decryptionFunction = TokenDecryption.looperFunction( internalPrivateKey,flippedObject);
+        
+        // console.log("decryptionFunction---------------",decryptionFunction);
+        // let decryptionToken = encrpypted_token.map(decryptionFunction);
+        
+        // var decryptionToken = encrpypted_token.reduce(decryptionFunction, {});
+        var decryptionToken = encrpypted_token.forEach(decryptionFunction);
+        
+        console.log("--------Data Decrypted-------------")
+
+        return flippedObject;
+      }
+      else{
+
+      
         let encrpypted_token=tokenizeData;//.results.data
         // console.log("encrpypted_token---------------",encrpypted_token);
         
@@ -93,6 +112,7 @@ class Tokenize {
       // );
       console.log("--------final result return----------")
       return flippedObject;//{ tokenizePanList: decryptionToken };
+      }
     } catch (e) {
       //   console.log("e--------------", e.message);
       return { error: e.message };

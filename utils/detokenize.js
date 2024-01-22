@@ -49,10 +49,10 @@ class Detokenize {
         // console.log("----------data");
         throw new Error("All field are required");
       }
-      let encryptionFunction = TokenEncryption.encryption(serverPublicKey);
+      // let encryptionFunction = TokenEncryption.encryption(serverPublicKey);
 
-      // Encrypt each string using map() and the encryption function with the parameter
-      let encryptionData = tokenizePan.map(encryptionFunction);
+      // // Encrypt each string using map() and the encryption function with the parameter
+      // let encryptionData = tokenizePan.map(encryptionFunction);
       // console.log("tokenizePanObj---encryptionData----------",encryptionData)
       
       // let encryptionData = TokenEncryption.encryption(
@@ -67,10 +67,26 @@ class Detokenize {
       //   accessTokenPayload,
       //   accessTokenAuth
       // );
-      let tokenizeData=await BatchProcessForDeTokenizing.runAllQueries(encryptionData,concurrentLimit,batchSize,"DETOKENIZE")
+      let encryptionData ;
+      let flippedObject;
+      let tokenizeData;
+      if (decryptedDataUrl=="https://tokenizer.uat.data.nye.money/detokenize/api/v2/bulk-detokenize"){
+      console.log("-------------v2  API-----------")
+         tokenizeData=await BatchProcessForDeTokenizing.runAllQueries(tokenizePan,concurrentLimit,batchSize,"DETOKENIZE")
+         flippedObject=tokenizePan.reduce((obj, el, index) => (obj[el] = index, obj), {});
+        }
+      else{
+      console.log("-------------v1  API-----------")
+      let encryptionFunction = TokenEncryption.encryption(serverPublicKey);
 
-      let flippedObject= Object.assign(...tokenizePan.map((k, i) =>({  [encryptionData[i]] :k})))
-      // console.log("tokenizePanObj-------------",tokenizePanObj)
+      // Encrypt each string using map() and the encryption function with the parameter
+       encryptionData = tokenizePan.map(encryptionFunction);
+         tokenizeData=await BatchProcessForDeTokenizing.runAllQueries(encryptionData,concurrentLimit,batchSize,"DETOKENIZE")
+        //  console.log("tokenizeData-------------",tokenizeData)
+          flippedObject= Object.assign(...tokenizePan.map((k, i) =>({  [encryptionData[i]] :k})))
+      }
+
+      // console.log("flippedObject-------------",flippedObject)
       // let flippedObject = Object.fromEntries(
       //   Object.entries(tokenizePanObj).map(([pan, token]) => [token, pan])
       // );
@@ -81,10 +97,12 @@ class Detokenize {
       //   internalPrivateKey
       // );
       let encrpypted_token=tokenizeData;//.results.data;
-      // console.log(tokenizePanObj, "--------decryptionFunction");
       let decryptionFunction = TokenDecryption.decryption(internalPrivateKey,flippedObject);
+      // console.log(flippedObject, "--------decryptionFunction");
+      // console.log(encrpypted_token, "--------encrpypted_token");
 
       let decryptionToken = encrpypted_token.reduce(decryptionFunction,{});
+      // console.log(decryptionToken, "--------decryptsdsdsdsionFunction");
 
       return decryptionToken; //{ pan: decryptionToken };
     } catch (e) {

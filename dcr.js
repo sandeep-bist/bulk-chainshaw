@@ -5,6 +5,7 @@ class TokenDecry {
   decryption(privateKey,stringTokenObj=null) {
 
     return(emptyObj,encryptedData,)=>{
+      // let stringTokenObj={};
       // return(encryptedData)=>{
       let decodedToken=null;
       // console.log("---------------dcr----",encryptedData)
@@ -48,20 +49,20 @@ class TokenDecry {
         );
         }
 
-      // console.log("----------------valueeee",encryptedData);
+      // console.log("----------------encryptedDataencryptedData",encryptedData);
   
       // stringTokenObj[]= decryptedData.toString("utf-8");
       // return stringTokenObj;
       // stringTokenObj["AACPG8957E"]="dfewf"
       if  (encryptedData.hasOwnProperty("data")){
         // console.log("encryptedData--------")
-          stringTokenObj[stringTokenObj[encryptedData.value]]=decryptedData.toString("utf-8");
-          delete stringTokenObj[encryptedData.value]; 
-        
+        // console.log(decryptedData.toString("utf-8"),"stringTokenObj[encryptedData.value]---------",encryptedData.value)
+          stringTokenObj[encryptedData.value]=decryptedData.toString("utf-8");
+          // stringTokenObj[stringTokenObj[encryptedData.value]]=decryptedData.toString("utf-8");
+          // delete stringTokenObj[encryptedData.value]; 
       }
       else{
         if ( encryptedData.isDetokenized){
-
         stringTokenObj[stringTokenObj[encryptedData.value]]=decryptedData.toString("utf-8");
         }
         else{
@@ -83,7 +84,7 @@ class TokenDecry {
     // return(emptyObj,encryptedData,)=>{
       return(encryptedData)=>{
       let decodedToken;
-      // console.log("---------------dcr----")
+      console.log("---------------dcr----",encryptedData)
       if (encryptedData.hasOwnProperty("data")){
        decodedToken = Buffer.from(encryptedData.data, "base64");
       }
@@ -115,11 +116,11 @@ class TokenDecry {
           },
           decodedToken
       );
-      // console.log("----------------valueeee",stringTokenObj);
-  
+      
       // stringTokenObj[]= decryptedData.toString("utf-8");
       // return stringTokenObj;
       // stringTokenObj["AACPG8957E"]="dfewf"
+      console.log("----stringTokenObj---------",stringTokenObj)
       if  (encryptedData.hasOwnProperty("data")){
         // console.log("encryptedData--------")
         stringTokenObj[stringTokenObj[encryptedData.value]]=decryptedData.toString("utf-8");
@@ -130,12 +131,80 @@ class TokenDecry {
         delete stringTokenObj[encryptedData.value]; 
       }
       // console.log("----------------valueeee");
+      // console.log("----------------valueeee",stringTokenObj);
       
       return stringTokenObj; //decryptedData.toString("utf-8");
     }
    
   }
 
+
+
+  looperFunction(privateKey,stringTokenObj=null) {
+
+    // return(emptyObj,encryptedData,)=>{
+      return(encryptedData)=>{
+      let decodedToken;
+      // console.log("---------------stringTokenObj----",stringTokenObj)
+      // console.log("----------------encryptedData",encryptedData);
+
+      if (encryptedData.hasOwnProperty("data")){
+       decodedToken = Buffer.from(encryptedData.data, "base64");
+      }
+      else{
+        // console.log("-----------9999999999----------",stringTokenObj[encryptedData.value])
+        decodedToken = encryptedData.token ;//Buffer.from(encryptedData.token, "base64");
+        stringTokenObj[stringTokenObj[encryptedData.value]]= decodedToken //decryptedData.toString("utf-8");
+        delete stringTokenObj[encryptedData.value];
+
+
+      }
+      // // console.log(`Encrypted Text: ${privateKey}`);
+      
+      
+      // // console.log(`privateKeyOriginal : ${privateKeyOriginal}`);
+      // // const decryptCipher = crypto.createDecipheriv(
+      //   //   "RSA-OAEP",
+      //   //   privateKeyOriginal,
+      //   //   Buffer.alloc(0)
+      //   // );
+        
+      //   // const ciphertextByte = Buffer.concat([
+      //     //   decryptCipher.update(decodedToken),
+      //     //   decryptCipher.final(),
+      //     // ]);
+      //     // return ciphertextByte.toString("utf-8");
+          
+      //     console.log("----------------valueeee",stringTokenObj);
+          
+      //     // stringTokenObj[]= decryptedData.toString("utf-8");
+      //     // return stringTokenObj;
+      //     // stringTokenObj["AACPG8957E"]="dfewf"
+      //     if  (encryptedData.hasOwnProperty("data")){
+      //           const privateKeyOriginal = this.loadPrivateKey(privateKey);
+      //           const decryptedData = crypto.privateDecrypt(
+      //             {
+      //               key: privateKeyOriginal,
+      //               padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+      //               oaepHash: MDNAME,
+      //             },
+      //             decodedToken
+      //        );
+      //   // console.log("encryptedData--------")
+      //   stringTokenObj[stringTokenObj[encryptedData.value]]=decryptedData.toString("utf-8");
+      //   delete stringTokenObj[encryptedData.value]; 
+      // }
+      // else{
+      //   stringTokenObj[stringTokenObj[encryptedData.value]]= decodedToken //decryptedData.toString("utf-8");
+      //   delete stringTokenObj[encryptedData.value]; 
+      // }
+      
+      // return stringTokenObj; //decryptedData.toString("utf-8");
+      // console.log("----------------valueeee",stringTokenObj);
+      return stringTokenObj;
+    }
+   
+  }
 
   loadPrivateKey(privateKey) {
     // const privateKeyBytes = Buffer.from(privateKey, "base64");

@@ -24,7 +24,7 @@ class BatchProcessForTokenizing{
         let results = [];
         let final_result=[];
         results= await  this.callTasks(batches,concurrentLimit,action);
-        // console.log("*****results===",results)
+        console.log("*****results===",results)
         for (let i=0;i<results.length;i++){
             console.log("Outer Loop: ",i);
             for (let j=0;j<results[i].length;j++){
@@ -34,6 +34,7 @@ class BatchProcessForTokenizing{
                     // }
             }
         }
+        console.log(final_result,"-------------------------------------------------999999")
         return final_result;
     }
 
@@ -46,6 +47,7 @@ class BatchProcessForTokenizing{
     async function createTaskInstance() {
       while (currentTask < batches.length) {
         if (action==="TOKENIZE"){
+          // console.log("batches[currentTask++]-------",batches[currentTask++])
             return await Datatokenize.getEncryptedTokenData(
                 batches[currentTask++]
               );
@@ -65,9 +67,9 @@ class BatchProcessForTokenizing{
       tasks.push(createTaskInstance());
     }
     let result=await Promise.all(tasks);
-    console.log("****Total hit counter****",final_results.length)
-
+    // console.log("result---------",result)
     final_results.push(result);
+    // console.log("****Total hit counter****",final_results)
 
     // return Promise.all([...Array(concurrentLimit)].map(createTaskInstance));
     }
