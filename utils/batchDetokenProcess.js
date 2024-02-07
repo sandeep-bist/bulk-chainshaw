@@ -27,9 +27,9 @@ class BatchProcessForDeTokenizing{
         // console.log(results.length,"result")
         // console.log("*****results===",results)
         for (let i=0;i<results.length;i++){
-          console.log("----outer loop---",i);
+          // console.log("----outer loop---",i);
             for (let j=0;j<results[i].length;j++){
-              console.log("----inner loop---",j);
+              // console.log("----inner loop---",j);
 
                     // for (let k=0;k<batchSize;k++){
                         final_result.push(...results[i][j].results.data)

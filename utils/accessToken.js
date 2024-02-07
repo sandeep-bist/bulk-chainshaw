@@ -21,7 +21,7 @@ async function getAccessToken(
     let res = await axios.request(config);
 
     return res.data;
-  } catch (e) {}
+  } catch (e) {console.log("eeeeeeee ehile generating token",e)}
 }
 
 module.exports = getAccessToken;

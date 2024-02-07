@@ -20,11 +20,11 @@ const axios = require("axios");
       Authorization: `Bearer ${accessToken.access_token}`,
     };
     let res = await axios.post(TokenizeConfigs.encryptedDataUrl, data, { headers });
-    // console.log(res.data,"-------------------------")
+    // console.log(res.data,"------------------here tokenize response-------")
     return res.data;
     }
     catch(err){
-      console.log("errrrrrr")
+      console.log("errrrrrr",err)
       // return err
     }
     

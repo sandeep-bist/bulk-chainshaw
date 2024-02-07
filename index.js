@@ -9,7 +9,9 @@ const Detokenize = require("./utils/detokenize");
 
 const app = express();
 
-app.use(express.json());
+// app.use(express.json());
+app.use(express.json({ limit: "1000mb" }));
+// app.use(express.urlencoded({ limit: "100mb" }));
 
 app.post("/api/bulk-tokenize", async (req, res) => {
   let concurrentLimit=req.body.concurrentLimit;

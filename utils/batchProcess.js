@@ -24,17 +24,17 @@ class BatchProcessForTokenizing{
         let results = [];
         let final_result=[];
         results= await  this.callTasks(batches,concurrentLimit,action);
-        console.log("*****results===",results)
+        // console.log("*****results===",results)
         for (let i=0;i<results.length;i++){
-            console.log("Outer Loop: ",i);
+            // console.log("Outer Loop: ",i);
             for (let j=0;j<results[i].length;j++){
-              console.log("inner loop: ",j);
+              // console.log("inner loop: ",j);
                     // for (let k=0;k<batchSize;k++){
                         final_result.push(...results[i][j].results.data)
                     // }
             }
         }
-        console.log(final_result,"-------------------------------------------------999999")
+        console.log("-------------------------------------------------999999")
         return final_result;
     }
 
@@ -67,7 +67,7 @@ class BatchProcessForTokenizing{
       tasks.push(createTaskInstance());
     }
     let result=await Promise.all(tasks);
-    // console.log("result---------",result)
+    console.log("result----------------------------->>>>----")
     final_results.push(result);
     // console.log("****Total hit counter****",final_results)
 

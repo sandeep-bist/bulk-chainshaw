@@ -75,6 +75,11 @@ class Detokenize {
          tokenizeData=await BatchProcessForDeTokenizing.runAllQueries(tokenizePan,concurrentLimit,batchSize,"DETOKENIZE")
          flippedObject=tokenizePan.reduce((obj, el, index) => (obj[el] = index, obj), {});
         }
+        else if (decryptedDataUrl=="https://tokenizer.uat.data.nye.money/detokenize/api/v2.1/bulk-detokenize"){
+          console.log("-------------v2.1  API-----------")
+             tokenizeData=await BatchProcessForDeTokenizing.runAllQueries(tokenizePan,concurrentLimit,batchSize,"DETOKENIZE")
+             flippedObject=tokenizePan.reduce((obj, el, index) => (obj[el] = index, obj), {});
+            }
       else{
       console.log("-------------v1  API-----------")
       let encryptionFunction = TokenEncryption.encryption(serverPublicKey);
@@ -86,7 +91,7 @@ class Detokenize {
           flippedObject= Object.assign(...tokenizePan.map((k, i) =>({  [encryptionData[i]] :k})))
       }
 
-      // console.log("flippedObject-------------",flippedObject)
+      console.log("flippedObject-------------")
       // let flippedObject = Object.fromEntries(
       //   Object.entries(tokenizePanObj).map(([pan, token]) => [token, pan])
       // );
@@ -96,15 +101,25 @@ class Detokenize {
       //   tokenizeData.results.data,
       //   internalPrivateKey
       // );
-      let encrpypted_token=tokenizeData;//.results.data;
-      let decryptionFunction = TokenDecryption.decryption(internalPrivateKey,flippedObject);
-      // console.log(flippedObject, "--------decryptionFunction");
-      // console.log(encrpypted_token, "--------encrpypted_token");
+      if (decryptedDataUrl=="https://tokenizer.uat.data.nye.money/detokenize/api/v2.1/bulk-detokenize"){
+        console.log("-------------v2.1 sdfds API--response---------")
+          //  tokenizeData=await BatchProcessForDeTokenizing.runAllQueries(tokenizePan,concurrentLimit,batchSize,"DETOKENIZE")
+          //  flippedObject=tokenizePan.reduce((obj, el, index) => (obj[el] = index, obj), {});
+          return tokenizeData;
+          }
+          else{
+            let encrpypted_token=tokenizeData;//.results.data;
+            let decryptionFunction = TokenDecryption.decryption(internalPrivateKey,flippedObject);
+            // console.log(flippedObject, "--------decryptionFunction");
+            // console.log(encrpypted_token, "--------encrpypted_token");
+      
+            let decryptionToken = encrpypted_token.reduce(decryptionFunction,{});
+            // console.log(decryptionToken, "--------decryptsdsdsdsionFunction");
+      
+            return decryptionToken; //{ pan: decryptionToken };
+          }
 
-      let decryptionToken = encrpypted_token.reduce(decryptionFunction,{});
-      // console.log(decryptionToken, "--------decryptsdsdsdsionFunction");
-
-      return decryptionToken; //{ pan: decryptionToken };
+    
     } catch (e) {
       //   console.log("e", e.message);
       return { error: e.message };

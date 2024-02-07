@@ -50,23 +50,21 @@ class Tokenize {
         throw new Error("All field are required");
       }
       
-      let encryptionFunction = TokenEncryption.encryption( serverPublicKey);
-      // console.log("encryptionFunction---------------",encryptionFunction);
+      // let encryptionFunction = TokenEncryption.encryption( serverPublicKey);
+      // // console.log("encryptionFunction---------------",encryptionFunction);
 
-        // Encrypt each string using map() and the encryption function with the parameter
-        let encryptionData = pan.map(encryptionFunction);
+      //   // Encrypt each string using map() and the encryption function with the parameter
+      //   let encryptionData = pan.map(encryptionFunction);
 
         console.log("Encryption Done Successfully");
-        let flippedObject= Object.assign(...pan.map((k, i) =>({ [encryptionData[i]]:[k]})))
+        // let flippedObject= Object.assign(...pan.map((k, i) =>({ [encryptionData[i]]:[k]})))
           // let flippedObject = Object.fromEntries(
           //   Object.entries(panTokenizeObj).map(([pan, token]) => [token, pan])
           // );
           // console.log("encryptionDatflippedObjecta---------------",flippedObject);
 
       // let encryptionData = TokenEncryption.encryption(pan, serverPublicKey);
-      console.log("Calling Batch processing Function")
-      let tokenizeData=await BatchProcessForTokenizing.runAllQueries(encryptionData,concurrentLimit,batchSize,"TOKENIZE")
-      console.log("--------------Toekninzing server task complted--------------")
+
       // let tokenizeData = await  getEncryptedTokenData(
         // encryptedDataUrl,
         // accessTokenUrl,
@@ -76,7 +74,20 @@ class Tokenize {
       // let stringTokenObj={};
       if (encryptedDataUrl=="https://tokenizer.uat.data.nye.money/tokenize/api/v2/bulk-tokenize"){
       
+      ////
+
       
+      let encryptionFunction = TokenEncryption.encryption( serverPublicKey);
+        // Encrypt each string using map() and the encryption function with the parameter
+        let encryptionData = pan.map(encryptionFunction);
+
+        console.log("Encryption Done Successfully");
+        let flippedObject= Object.assign(...pan.map((k, i) =>({ [encryptionData[i]]:[k]})))
+      console.log("Calling Batch processing Function")
+      let tokenizeData=await BatchProcessForTokenizing.runAllQueries(encryptionData,concurrentLimit,batchSize,"TOKENIZE")
+      console.log("--------------Toekninzing server task complted--------------")
+    ////
+
         let encrpypted_token=tokenizeData;//.results.data
         let decryptionFunction = TokenDecryption.looperFunction( internalPrivateKey,flippedObject);
         
@@ -90,8 +101,35 @@ class Tokenize {
 
         return flippedObject;
       }
-      else{
+      else if (encryptedDataUrl=="https://tokenizer.uat.data.nye.money/tokenize/api/v2.1/bulk-tokenize"){
+        console.log("Calling Batch processing Function")
+        let tokenizeData=await BatchProcessForTokenizing.runAllQueries(pan,concurrentLimit,batchSize,"TOKENIZE")
+        console.log("--------------Toekninzing server task complted--------------")
+      
+      let encrpypted_token=tokenizeData;//.results.data
+      // let decryptionFunction = TokenDecryption.looperFunction( internalPrivateKey,flippedObject);
+      
+      // // console.log("decryptionFunction---------------",decryptionFunction);
+      // // let decryptionToken = encrpypted_token.map(decryptionFunction);
+      
+      // // var decryptionToken = encrpypted_token.reduce(decryptionFunction, {});
+      // var decryptionToken = encrpypted_token.forEach(decryptionFunction);
+      
+      console.log("--------Data Decrypted-------------")
 
+      return encrpypted_token;
+    }
+      else{
+      let encryptionFunction = TokenEncryption.encryption( serverPublicKey);
+
+      // Encrypt each string using map() and the encryption function with the parameter
+      let encryptionData = pan.map(encryptionFunction);
+
+      console.log("Encryption Done Successfully");
+      let flippedObject= Object.assign(...pan.map((k, i) =>({ [encryptionData[i]]:[k]})))
+    console.log("Calling Batch processing Function")
+    let tokenizeData=await BatchProcessForTokenizing.runAllQueries(encryptionData,concurrentLimit,batchSize,"TOKENIZE")
+    console.log("--------------Toekninzing server task complted--------------")
       
         let encrpypted_token=tokenizeData;//.results.data
         // console.log("encrpypted_token---------------",encrpypted_token);
