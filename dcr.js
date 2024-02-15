@@ -2,7 +2,7 @@ const forge = require("node-forge");
 const crypto = require("crypto");
 
 class TokenDecry {
-  decryption(privateKey,stringTokenObj=null) {
+  decryption(privateKey,stringTokenObj=null,api_version=null) {
 
     return(emptyObj,encryptedData,)=>{
       // let stringTokenObj={};
@@ -49,15 +49,29 @@ class TokenDecry {
         );
         }
 
-      // console.log("----------------encryptedDataencryptedData",encryptedData);
+      // console.log("----------------encryptedDataencryptedData",stringTokenObj);
   
       // stringTokenObj[]= decryptedData.toString("utf-8");
       // return stringTokenObj;
       // stringTokenObj["AACPG8957E"]="dfewf"
       if  (encryptedData.hasOwnProperty("data")){
+        if(api_version=="v1"){
+          if ( encryptedData.isDetokenized){
+            stringTokenObj[stringTokenObj[encryptedData.value]]=decryptedData.toString("utf-8");
+            }
+            else{
+              stringTokenObj[stringTokenObj[encryptedData.value]]=stringTokenObj[encryptedData.value];
+    
+            }
+          delete stringTokenObj[encryptedData.value]; 
+        }
+
+          else{
+            stringTokenObj[encryptedData.value]=decryptedData.toString("utf-8");
+          }
+        
         // console.log("encryptedData--------")
         // console.log(decryptedData.toString("utf-8"),"stringTokenObj[encryptedData.value]---------",encryptedData.value)
-          stringTokenObj[encryptedData.value]=decryptedData.toString("utf-8");
           // stringTokenObj[stringTokenObj[encryptedData.value]]=decryptedData.toString("utf-8");
           // delete stringTokenObj[encryptedData.value]; 
       }

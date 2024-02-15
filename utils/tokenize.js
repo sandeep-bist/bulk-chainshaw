@@ -116,8 +116,14 @@ class Tokenize {
       // var decryptionToken = encrpypted_token.forEach(decryptionFunction);
       
       console.log("--------Data Decrypted-------------")
+      const tokenizedformattedData = encrpypted_token.reduce((acc, obj) => {
+        acc[obj.token] = obj.value;
+        return acc;
+      }, {});
+      
+      return tokenizedformattedData;
 
-      return encrpypted_token;
+      // return encrpypted_token;
     }
       else{
       let encryptionFunction = TokenEncryption.encryption( serverPublicKey);

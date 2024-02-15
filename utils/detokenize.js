@@ -49,6 +49,18 @@ class Detokenize {
         // console.log("----------data");
         throw new Error("All field are required");
       }
+
+      let api_version="v2.1";
+      if (decryptedDataUrl=="https://tokenizer.uat.data.nye.money/detokenize/api/v2/bulk-detokenize"){
+        api_version="v2";
+      }
+      else if (decryptedDataUrl=="https://tokenizer.uat.data.nye.money/detokenize/api/v1/bulk-detokenize"){
+        api_version="v1";
+      }
+      else{
+       api_version="v2.1";
+
+      }
       // let encryptionFunction = TokenEncryption.encryption(serverPublicKey);
 
       // // Encrypt each string using map() and the encryption function with the parameter
@@ -85,10 +97,12 @@ class Detokenize {
       let encryptionFunction = TokenEncryption.encryption(serverPublicKey);
 
       // Encrypt each string using map() and the encryption function with the parameter
-       encryptionData = tokenizePan.map(encryptionFunction);
-         tokenizeData=await BatchProcessForDeTokenizing.runAllQueries(encryptionData,concurrentLimit,batchSize,"DETOKENIZE")
+          encryptionData = tokenizePan.map(encryptionFunction);
+          tokenizeData=await BatchProcessForDeTokenizing.runAllQueries(encryptionData,concurrentLimit,batchSize,"DETOKENIZE")
         //  console.log("tokenizeData-------------",tokenizeData)
           flippedObject= Object.assign(...tokenizePan.map((k, i) =>({  [encryptionData[i]] :k})))
+
+
       }
 
       console.log("flippedObject-------------")
@@ -102,15 +116,35 @@ class Detokenize {
       //   internalPrivateKey
       // );
       if (decryptedDataUrl=="https://tokenizer.uat.data.nye.money/detokenize/api/v2.1/bulk-detokenize"){
-        console.log("-------------v2.1 sdfds API--response---------")
+        // console.log("-------------v2.1 sdfds API--response---------",tokenizeData)
           //  tokenizeData=await BatchProcessForDeTokenizing.runAllQueries(tokenizePan,concurrentLimit,batchSize,"DETOKENIZE")
           //  flippedObject=tokenizePan.reduce((obj, el, index) => (obj[el] = index, obj), {});
+          const tokenizedformattedData = tokenizeData.reduce((acc, obj) => {
+            acc[obj.value] = obj.data;
+            return acc;
+          }, {});
+          
+          return tokenizedformattedData;
           return tokenizeData;
           }
-          else{
+          else if (decryptedDataUrl=="https://tokenizer.uat.data.nye.money/detokenize/api/v2/bulk-detokenize"){
+            console.log("-------------v2sdfds API--response---------")
             let encrpypted_token=tokenizeData;//.results.data;
             let decryptionFunction = TokenDecryption.decryption(internalPrivateKey,flippedObject);
             // console.log(flippedObject, "--------decryptionFunction");
+            // console.log(encrpypted_token, "--------encrpypted_token");
+      
+            let decryptionToken = encrpypted_token.reduce(decryptionFunction,{});
+            // console.log(decryptionToken, "--------decryptsdsdsdsionFunction");
+      
+            return decryptionToken; //{ pan: decryptionToken };
+              }
+          else{
+            console.log("-------------v1---dfds API--response---------")
+            // console.log(tokenizeData, "--------decryptionFunction");
+
+            let encrpypted_token=tokenizeData;//.results.data;
+            let decryptionFunction = TokenDecryption.decryption(internalPrivateKey,flippedObject,api_version);
             // console.log(encrpypted_token, "--------encrpypted_token");
       
             let decryptionToken = encrpypted_token.reduce(decryptionFunction,{});
